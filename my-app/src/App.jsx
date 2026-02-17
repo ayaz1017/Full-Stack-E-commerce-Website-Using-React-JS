@@ -2,6 +2,7 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 
 import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";   // ✅ ADD THIS
 
 import Home from "./pages/Home";
 import Collection from "./pages/Collection";
@@ -29,6 +30,8 @@ export default function App() {
         <Route path="/place-order" element={<PlaceOrder />} />
         <Route path="/orders" element={<Orders />} />
       </Routes>
+
+      <Footer />
     </div>
   );
 }
