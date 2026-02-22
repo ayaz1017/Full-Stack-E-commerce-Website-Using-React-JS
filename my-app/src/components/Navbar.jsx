@@ -1,31 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { assets } from "../assets/assets";
 import { Link, NavLink } from "react-router-dom";
+import { ShopContext } from "../context/ShopContext";
 
 export default function Navbar() {
   const [visible, setVisible] = useState(false);
+
+  const { setShowSearch } = useContext(ShopContext);
 
   return (
     <div className="relative flex items-center justify-between py-5 font-medium max-w-screen-xl mx-auto">
 
       {/* Logo */}
       <Link to="/">
-        <Link to='/'><img src={assets.logo} className="w-36" alt="logo" /></Link>
+        <img src={assets.logo} className="w-36" alt="logo" />
       </Link>
 
       {/* Desktop Menu */}
       <ul className="hidden sm:flex gap-8 text-sm text-gray-700 list-none">
-
         <li>
           <NavLink to="/" className="flex flex-col items-center gap-1">
             {({ isActive }) => (
               <>
                 <p>HOME</p>
-                <hr
-                  className={`w-2/4 h-[1.5px] bg-gray-700 border-none ${
-                    isActive ? "block" : "hidden"
-                  }`}
-                />
+                <hr className={`w-2/4 h-[1.5px] bg-gray-700 border-none ${isActive ? "block" : "hidden"}`} />
               </>
             )}
           </NavLink>
@@ -36,11 +34,7 @@ export default function Navbar() {
             {({ isActive }) => (
               <>
                 <p>COLLECTION</p>
-                <hr
-                  className={`w-2/4 h-[1.5px] bg-gray-700 border-none ${
-                    isActive ? "block" : "hidden"
-                  }`}
-                />
+                <hr className={`w-2/4 h-[1.5px] bg-gray-700 border-none ${isActive ? "block" : "hidden"}`} />
               </>
             )}
           </NavLink>
@@ -51,11 +45,7 @@ export default function Navbar() {
             {({ isActive }) => (
               <>
                 <p>ABOUT</p>
-                <hr
-                  className={`w-2/4 h-[1.5px] bg-gray-700 border-none ${
-                    isActive ? "block" : "hidden"
-                  }`}
-                />
+                <hr className={`w-2/4 h-[1.5px] bg-gray-700 border-none ${isActive ? "block" : "hidden"}`} />
               </>
             )}
           </NavLink>
@@ -66,11 +56,7 @@ export default function Navbar() {
             {({ isActive }) => (
               <>
                 <p>CONTACT</p>
-                <hr
-                  className={`w-2/4 h-[1.5px] bg-gray-700 border-none ${
-                    isActive ? "block" : "hidden"
-                  }`}
-                />
+                <hr className={`w-2/4 h-[1.5px] bg-gray-700 border-none ${isActive ? "block" : "hidden"}`} />
               </>
             )}
           </NavLink>
@@ -80,7 +66,13 @@ export default function Navbar() {
       {/* Icons */}
       <div className="flex items-center gap-6">
 
-        <img src={assets.search_icon} className="w-5 cursor-pointer" alt="" />
+        {/* 🔍 Search Icon */}
+        <img
+          onClick={() => setShowSearch(true)}
+          src={assets.search_icon}
+          className="w-5 cursor-pointer"
+          alt="search"
+        />
 
         {/* Profile Dropdown */}
         <div className="relative group">
@@ -142,7 +134,6 @@ export default function Navbar() {
 
         </div>
       </div>
-
     </div>
   );
 }
