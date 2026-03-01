@@ -1,5 +1,6 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import { products } from "../assets/assets";
+import { toast } from 'react-toastify';
 
 export const ShopContext = createContext();
 
@@ -10,33 +11,50 @@ const ShopContextProvider = ({ children }) => {
 
   const [search, setSearch] = useState('');
   const [showSearch, setShowSearch] = useState(false);
-  const[cartItems,setCartItems]=useState({});
+  const [cartItems, setCartItems] = useState({});
 
-
-  const addToCart =async() => {
-    let cartData=structuredClone(cartItems);
-    if(cartData[itemId]){
-      if(cartData[itemId][size]){
-        cartData[itemId][size] +=1;
-
-      }
-      else {
-        cartData[itemId][size]=1;
-      }
-
+  const addToCart = (itemId, size) => {
+    if (!size) {
+      toast.error('Select Product Size');
+      return;
     }
-    else {
-      cartData[itemId]={};
-      cartData[itemId][size]=1;
 
+    let cartData = structuredClone(cartItems);
+
+    if (cartData[itemId]) {
+      if (cartData[itemId][size]) {
+        cartData[itemId][size] += 1;
+      } else {
+        cartData[itemId][size] = 1;
+      }
+    } else {
+      cartData[itemId] = {};
+      cartData[itemId][size] = 1;
     }
+
     setCartItems(cartData);
-  }
+    toast.success('Added to cart');
+  };
 
-  useEffect(()=> {
+  useEffect(() => {
     console.log(cartItems);
+  }, [cartItems]);
 
-  },[cartItems]);
+  const getCartCount = () => {
+    let totalCount = 0;
+    for (const items in cartItems) {
+      for (const item in cartItems[items]) {
+        try {
+          if (cartItems[items][item] > 0) {
+            totalCount += cartItems[items][item];
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    }
+    return totalCount;
+  };
 
   const value = {
     products,
@@ -47,7 +65,8 @@ const ShopContextProvider = ({ children }) => {
     showSearch,
     setShowSearch,
     cartItems,
-    addToCart
+    addToCart,
+    getCartCount
   };
 
   return (

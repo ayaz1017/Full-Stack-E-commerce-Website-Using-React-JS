@@ -2,11 +2,10 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { ShopContext } from '../context/ShopContext';
 import RelatedProducts from '../components/RelatedProducts';
-
 const Product = () => {
 
   const { productId } = useParams();
-  const { products } = useContext(ShopContext);
+  const { products,currency,addToCart } = useContext(ShopContext);
 
   const [productData, setProductData] = useState(null);
   const [image, setImage] = useState("");
@@ -111,7 +110,7 @@ const Product = () => {
           )}
 
           {/* ================= ADD TO CART BUTTON ================= */}
-          <button className="mt-8 bg-black text-white px-8 py-3 text-sm active:bg-gray-700">
+          <button onClick={()=>addToCart(productData._id,size)} className="mt-8 bg-black text-white px-8 py-3 text-sm active:bg-gray-700">
             ADD TO CART
           </button>
 
